@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
+import ListItem from "./ListItem"; 
 
 // defind form Schema
 const formSchema = z.object({
@@ -58,6 +59,12 @@ export function AddListForm() {
         reset() 
         setAccessibilityValue(0)
     }
+
+    // delete Item Function
+    const removeItem = (index: number) => {
+        setAddList((prev) => prev.filter((_, i) => i !== index));
+    };
+    
 
     return (
         <div className="max-w-lg mx-auto p-4">
@@ -115,7 +122,12 @@ export function AddListForm() {
             Add List
             </button>
         </form>
-
+        
+        <div className="mt-4 space-y-2">
+        {addList.map((item, index) => (
+          <ListItem key={index} item={item} onDelete={() => removeItem(index)} />
+        ))}
+      </div>
     </div>
   )
 }
